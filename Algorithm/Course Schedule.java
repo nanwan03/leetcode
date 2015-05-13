@@ -9,8 +9,8 @@ public class Solution {
             graph.add(new ArrayList<Integer>());
         }
         for (int i = 0; i < a.length; i++) {
-            int prev = a[i][0];
-            int cur = a[i][1];
+            int prev = a[i][1];
+            int cur = a[i][0];
             graph.get(prev).add(cur);
         }
         return toplogicalSort(graph);
