@@ -10,6 +10,8 @@
 //age 21 30
 
 # Read from the file file.txt and print its transposed content to stdout.
+#!/bin/bash
+
 awk '
 {
     for (i = 1; i <= NF; i++) {
