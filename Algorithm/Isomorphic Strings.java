@@ -6,22 +6,21 @@ public class Solution {
         if (s.length() != t.length()) {
             return false;
         }
-        String str = replace(s, t);
-        return s.equals(str);
-    }
-    private String replace(String s, String t) {
         Map<Character, Character> map = new HashMap<Character, Character>();
-        Set<Character> set = new HashSet<Character>();
-        StringBuilder sb = new StringBuilder();
-        for (int i = 0; i < s.length(); i++) {
-            if (!map.containsKey(t.charAt(i))) {
-                if (!set.add(s.charAt(i))) {
-                    return "";
+        for (int i = 0; i < s.length(); ++i) {
+            char sC = s.charAt(i);
+            char tC = t.charAt(i);
+            if (!map.containsKey(sC)) {
+                if (map.containsValue(tC)) {
+                    return false;
                 }
-                map.put(t.charAt(i), s.charAt(i));
+                map.put(sC, tC);
+            } else {
+                if (map.get(sC) != tC) {
+                    return false;
+                }
             }
-            sb.append(map.get(t.charAt(i)));
         }
-        return sb.toString();
+        return true;
     }
 }
