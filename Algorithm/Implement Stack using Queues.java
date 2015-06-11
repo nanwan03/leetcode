@@ -1,8 +1,8 @@
-class Stack {
+class MyStack {
 	Queue<Integer> queue1 = new LinkedList<Integer>();
 	Queue<Integer> queue2 = new LinkedList<Integer>();
 	List<Queue<Integer>> list = new ArrayList<Queue<Integer>>();
-	Stack() {
+	MyStack() {
 		list.add(queue1);
 		list.add(queue2);
 	}
