@@ -7,27 +7,25 @@ public class NumArray {
         this.nums = nums;
         value = new int[nums.length + 1];
         Arrays.fill(value, 0);
-        for (int i = 1; i <= nums.length; ++i) {
-        	int temp = i;
-        	while (temp < value.length) {
-        		value[temp] += nums[i - 1];
-        		temp += lowBit(temp);
-        	}
+        for (int i = 0; i < nums.length; ++i) {
+            updateDiff(i + 1, nums[i]);
         }
     }
     
     private static int lowBit(int index) {
-		return index & (index ^ (index - 1));
+		return index & (-index);
 	}
 	
     void update(int i, int val) {
-    	int temp = i++;
-    	int diff = val - nums[temp];
+    	updateDiff(i + 1, val - nums[i]);
+        nums[i] = val;
+    }
+    
+    void updateDiff(int i, int diff) {
         while (i < value.length) {
-			value[i] += diff;
-			i += lowBit(i);
-		}
-        nums[temp] = val;
+        	value[i] += diff;
+        	i += lowBit(i);
+        }
     }
 
     public int sumRange(int i, int j) {
