@@ -9,35 +9,30 @@
  */
 public class Solution {
     public List<String> binaryTreePaths(TreeNode root) {
+        // Write your code here
         List<String> rst = new ArrayList<String>();
         if (root == null) {
             return rst;
         }
-        List<Integer> nums = new ArrayList<Integer>();
-        helper(rst, nums, root);
+        List<Integer> items = new ArrayList<Integer>();
+        helper(rst, items, root);
         return rst;
     }
-    private static void helper(List<String> rst, List<Integer> nums, TreeNode root) {
+    private void helper(List<String> rst, List<Integer> items, TreeNode root) {
         if (root == null) {
-            return;
-        }
-        nums.add(root.val);
-        if (root.left == null && root.right == null) {
-        	StringBuilder sb = new StringBuilder();
-        	for (int i : nums) {
-        		sb.append(i).append("->");
-        	}
-        	sb.delete(sb.length() - 2, sb.length());
-        	rst.add(sb.toString());
-        	nums.remove(nums.size() - 1);
         	return;
         }
-        if (root.left != null) {
-        	helper(rst, nums, root.left);
+        items.add(root.val);
+        if (root.left == null && root.right == null) {
+        	StringBuilder sb = new StringBuilder();
+        	sb.append(items.get(0));
+        	for (int i = 1; i < items.size(); ++i) {
+        		sb.append("->").append(items.get(i));
+        	}
+        	rst.add(sb.toString());
         }
-        if (root.right != null) {
-        	helper(rst, nums, root.right);
-        }
-        nums.remove(nums.size() - 1);
+        helper(rst, items, root.left);
+        helper(rst, items, root.right);
+        items.remove(items.size() - 1);
     }
 }
