@@ -12,19 +12,15 @@ public class Solution {
             return head;
         }
         ListNode cur = head;
-        ListNode dummy = new ListNode(0);
-        ListNode tail = dummy;
-        while (cur != null && cur.next != null) {
-            ListNode evenNode = cur.next;
-            cur.next = evenNode.next;
-            evenNode.next = null;
-            dummy.next = evenNode;
-            if (cur.next != null) {
-                cur = cur.next;
-            }
-            dummy = dummy.next;
+        ListNode even = head.next;
+        ListNode dummy = even;
+        while (even != null && even.next != null) {
+            cur.next = cur.next.next;
+            even.next = even.next.next;
+            cur = cur.next;
+            even = even.next;
         }
-        cur.next = tail.next;
+        cur.next = dummy;
         return head;
     }
 }
