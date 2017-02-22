@@ -1,13 +1,10 @@
 public class Solution {
-    public int maxSubArray(int[] A) {
-        if (A == null || A.length == 0) {
-            return 0;
-        }
-        int tempMax = Integer.MIN_VALUE;
+    public int maxSubArray(int[] nums) {
         int max = Integer.MIN_VALUE;
-        for (int i = 0; i < A.length; i++) {
-            tempMax = Math.max(tempMax, 0) + A[i];
-            max = Math.max(max, tempMax);
+        int maxSoFar = Integer.MIN_VALUE;
+        for (int i : nums) {
+          maxSoFar = Math.max(maxSoFar, 0) + i;
+          max = Math.max(max, maxSoFar);
         }
         return max;
     }
