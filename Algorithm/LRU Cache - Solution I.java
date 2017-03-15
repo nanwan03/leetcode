@@ -34,7 +34,7 @@ public class LRUCache {
         return node.value;
     }
     
-    public void set(int key, int value) {
+    public void put(int key, int value) {
         if (get(key) != -1) {
         	map.get(key).value = value;
         	return;
