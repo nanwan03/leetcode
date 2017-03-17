@@ -1,31 +1,29 @@
 public class Solution {
-    private int rst = 0;
     public int totalNQueens(int n) {
         if (n == 0) {
-            return rst;
+            return 0;
         }
         List<Integer> cols = new ArrayList<Integer>();
-        helper(cols, n);
-        return rst;
+        return helper(cols, n);
     }
-    private void helper(List<Integer> cols, int n) {
-        if (cols.size() == n) {
-            rst++;
-            return;
+    private int helper(List<Integer> cols, int n) {
+        if (n == cols.size()) {
+            return 1;
         }
-        for (int i = 0; i < n; i++) {
+        int rst = 0;
+        for (int i = 0; i < n; ++i) {
             if (isValid(cols, i)) {
                 cols.add(i);
-                helper(cols, n);
+                rst += helper(cols, n);
                 cols.remove(cols.size() - 1);
             }
         }
+        return rst;
     }
     private boolean isValid(List<Integer> cols, int rowToPut) {
-        int colSize = cols.size();
-        for (int i = 0; i< cols.size(); i++) {
-            int diff = Math.abs(rowToPut - cols.get(i));
-            if (diff == 0 || diff == cols.size() - i) {
+        for (int i = 0; i < cols.size(); ++i) {
+            int diff = Math.abs(cols.get(i) - rowToPut);
+            if (diff == 0 || diff == (cols.size() - i)) {
                 return false;
             }
         }
