@@ -9,30 +9,37 @@
  */
 public class Solution {
     public List<String> binaryTreePaths(TreeNode root) {
-        // Write your code here
         List<String> rst = new ArrayList<String>();
         if (root == null) {
             return rst;
         }
-        List<Integer> items = new ArrayList<Integer>();
-        helper(rst, items, root);
+        List<Integer> path = new ArrayList<Integer>();
+        path.add(root.val);
+        helper(rst, path, root);
         return rst;
     }
-    private void helper(List<String> rst, List<Integer> items, TreeNode root) {
-        if (root == null) {
-        	return;
-        }
-        items.add(root.val);
+    private void helper(List<String> rst, List<Integer> path, TreeNode root) {
         if (root.left == null && root.right == null) {
-        	StringBuilder sb = new StringBuilder();
-        	sb.append(items.get(0));
-        	for (int i = 1; i < items.size(); ++i) {
-        		sb.append("->").append(items.get(i));
-        	}
-        	rst.add(sb.toString());
+            rst.add(render(path));
+            return;
         }
-        helper(rst, items, root.left);
-        helper(rst, items, root.right);
-        items.remove(items.size() - 1);
+        if (root.left != null) {
+            path.add(root.left.val);
+            helper(rst, path, root.left);
+            path.remove(path.size() - 1);
+        }
+        if (root.right != null) {
+            path.add(root.right.val);
+            helper(rst, path, root.right);
+            path.remove(path.size() - 1);
+        }
+    }
+    private String render(List<Integer> path) {
+        StringBuilder sb = new StringBuilder();
+        sb.append(path.get(0));
+        for (int i = 1; i < path.size(); ++i) {
+            sb.append("->").append(path.get(i));
+        }
+        return sb.toString();
     }
 }
