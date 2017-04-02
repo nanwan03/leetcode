@@ -14,25 +14,21 @@ public class Solution {
             return rst;
         }
         List<Integer> path = new ArrayList<Integer>();
-        path.add(root.val);
         helper(rst, path, root);
         return rst;
     }
     private void helper(List<String> rst, List<Integer> path, TreeNode root) {
-        if (root.left == null && root.right == null) {
-            rst.add(render(path));
+        if (root == null) {
             return;
         }
-        if (root.left != null) {
-            path.add(root.left.val);
+        path.add(root.val);
+        if (root.left == null && root.right == null) {
+            rst.add(render(path));
+        } else {
             helper(rst, path, root.left);
-            path.remove(path.size() - 1);
-        }
-        if (root.right != null) {
-            path.add(root.right.val);
             helper(rst, path, root.right);
-            path.remove(path.size() - 1);
         }
+        path.remove(path.size() - 1);
     }
     private String render(List<Integer> path) {
         StringBuilder sb = new StringBuilder();
