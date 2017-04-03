@@ -1,21 +1,18 @@
 public class Solution {
-    private Map<Integer, Integer> map = new HashMap<Integer, Integer>();
     public int numTrees(int n) {
-        if (map.containsKey(n)) {
-            return map.get(n);
+        if (n == 0) {
+            return 0;
         }
-        if(n==0 || n==1)
-        {
-            map.put(0, 1);
-            map.put(1, 1);
-            return 1;
-        }
-        int rst = 0;
-        for(int i=1;i<=n;i++)
-        {
-            rst += numTrees(i-1)*numTrees(n-i);
-        }
-        map.put(n, rst);
-        return rst;
+        int[] res = new int[n+1];  
+        res[0] = 1;  
+        res[1] = 1;  
+        for(int i=2;i<=n;i++)  
+        {  
+            for(int j=0;j<i;j++)  
+            {  
+                res[i] += res[j]*res[i-j-1];  
+            }  
+        }  
+        return res[n]; 
     }
 }
