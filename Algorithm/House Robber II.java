@@ -1,20 +1,23 @@
 public class Solution {
-    public int rob(int[] num) {
-        if(num == null || num.length == 0)
+    public int rob(int[] nums) {
+        if (nums == null || nums.length == 0) {
             return 0;
-        int len = num.length;
-        if(len == 1)
-            return num[0];
-        return Math.max(robInt(num, 0, len - 2), robInt(num, 1, len - 1));
-    }
-
-    public int robInt(int[] num, int low, int high){
-        int pre = 0, cur = 0;
-        for(int i = low; i <= high; i++){
-            int next = Math.max(pre + num[i], cur);
-            pre = cur;
-            cur = next;
         }
-        return cur;
+        if (nums.length == 1) {
+            return nums[0];
+        }
+        return Math.max(helper(nums, 0, nums.length - 2), helper(nums, 1, nums.length - 1));
+    }
+    private int helper(int[] nums, int start, int end) {
+        if (start == end) {
+            return nums[start];
+        }
+        int[] dp = new int[]{nums[start], Math.max(nums[start], nums[start + 1]), 0};
+        for (int i = start + 2; i <= end; ++i) {
+            dp[2] = Math.max(dp[0] + nums[i], dp[1]);
+            dp[0] = dp[1];
+            dp[1] = dp[2];
+        }
+        return dp[1];
     }
 }
