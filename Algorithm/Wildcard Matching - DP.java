@@ -1,31 +1,29 @@
 public class Solution {
-    /**
-     * @param s: A string 
-     * @param p: A string includes "?" and "*"
-     * @return: A boolean
-     */
     public boolean isMatch(String s, String p) {
-        if (p.length() == 0) {
-            return s.length() == 0;
+        if (s == null || p == null) {
+            return false;
         }
-        boolean[] dp = new boolean[s.length() + 1];
-        dp[0] = true;
-        for (int pIndex = 0; pIndex < p.length(); pIndex++) {
-            if (p.charAt(pIndex) != '*') {
-                for (int sIndex = s.length() - 1; sIndex >= 0; sIndex--) {
-                    dp[sIndex + 1] = dp[sIndex] && (s.charAt(sIndex) == p.charAt(pIndex) || p.charAt(pIndex) == '?');
-                }
-            } else {
-                int sIndex = 0;
-                while (sIndex <= s.length() && !dp[sIndex]) {
-                    sIndex++;
-                }
-                while (sIndex <= s.length()) {
-                    dp[sIndex++] = true;
+        int sSize = s.length();
+        int pSize = p.length();
+        s = " " + s;
+        p = " " + p;
+        boolean[][] dp = new boolean[sSize + 1][pSize + 1];
+        dp[0][0] = true;
+        for (int i = 1; i <= pSize; ++i) {
+            if (p.charAt(i) != '*') {
+                break;
+            }
+            dp[0][i] = true;
+        }
+        for (int i = 1; i <= sSize; ++i) {
+            for (int j = 1; j <= pSize; ++j) {
+                if (s.charAt(i) == p.charAt(j) || p.charAt(j) == '?') {
+                    dp[i][j] = dp[i - 1][j - 1];
+                } else if (p.charAt(j) == '*') {
+                    dp[i][j] = dp[i - 1][j] || dp[i][j - 1];
                 }
             }
-            dp[0] = dp[0] && (p.charAt(pIndex) == '*');
         }
-        return dp[s.length()];
-     }
+        return dp[sSize][pSize];
+    }
 }
