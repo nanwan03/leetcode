@@ -1,41 +1,28 @@
 public class Solution {
     public List<Integer> findAnagrams(String s, String p) {
-        List<Integer> list = new ArrayList<Integer>();
+        List<Integer> rst = new ArrayList<Integer>();
         if (s == null || s.length() == 0 || p == null || p.length() == 0) {
-            return list;
+            return rst;
         }
-        int[] hash = new int[256]; //character hash
-        //record each character in p to hash
-        for (char c : p.toCharArray()) {
-            hash[c]++;
+        int[] total = new int[256];
+        for (int i = 0; i < p.length(); ++i) {
+            total[p.charAt(i)]++;
         }
-        //two points, initialize count to p's length
         int left = 0;
-        int right = 0;
-        int count = p.length();
-        while (right < s.length()) {
-            //move right everytime, if the character exists in p's hash, decrease the count
-            //current hash value >= 1 means the character is existing in p
-            if (--hash[s.charAt(right++)] >= 0) {
-                count--; 
+        int windowSize = 0;
+        for (int i = 0; i < s.length(); ++i) {
+            if (--total[s.charAt(i)] >= 0) {
+                windowSize++;
             }
-            
-            //when the count is down to 0, means we found the right anagram
-            //then add window's left to result list
-            if (count == 0) {
-                list.add(left);
+            if (windowSize == p.length()) {
+                rst.add(left);
             }
-        
-            //if we find the window's size equals to p, then we have to move left (narrow the window) to find the new match window
-            //++ to reset the hash because we kicked out the left
-            //only increase the count if the character is in p
-            //the count >= 0 indicate it was original in the hash, cuz it won't go below 0
-            if (right - left == p.length()) {
-                if (++hash[s.charAt(left++)] >= 1) {
-                    count++;
-                }
+            if (i - left + 1 == p.length()) {
+                if (++total[s.charAt(left++)] > 0) {
+                    windowSize--;
+                } 
             }
         }
-        return list;
+        return rst;
     }
 }
