@@ -23,16 +23,19 @@
  */
 public class Solution {
     public int maxProfit(int[] prices) {
-        int buy = Integer.MIN_VALUE;
-        int pre_buy = 0;
-        int sell = 0;
-        int pre_sell = 0;
-        for (int price : prices) {
-            pre_buy = buy;
-            buy = Math.max(pre_sell - price, pre_buy);
-            pre_sell = sell;
-            sell = Math.max(pre_buy + price, pre_sell);
+        if (prices == null || prices.length == 0) {
+            return 0;
         }
-        return sell;
+        int[] buy = new int[1];  //buy[i - 1]
+        int[] sell = new int[2]; //sell[i - 1, i - 2]
+        Arrays.fill(buy, Integer.MIN_VALUE);
+        for (int price : prices) {
+            int buy_cur = Math.max(sell[1] - price, buy[0]);
+            int sell_cur = Math.max(buy[0] + price, sell[0]);
+            buy[0] = buy_cur;
+            sell[1] = sell[0];
+            sell[0] = sell_cur;
+        }
+        return sell[0];
     }
 }
