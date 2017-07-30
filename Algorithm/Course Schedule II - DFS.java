@@ -25,11 +25,13 @@ public class Solution {
     }
     private boolean DFS(int node, List<List<Integer>> adjList, int[] visited, int[] rst) {
         visited[node] = 1;
-        for (int i : adjList.get(node)) {
-            if (visited[i] == 0) {
-                DFS(i, adjList, visited, rst);
+        for (int next : adjList.get(node)) {
+            if (visited[next] == 0) {
+                if (!DFS(next, adjList, visited, rst)) {
+                    return false;
+                }
             }
-            if (visited[i] == 1) {
+            if (visited[next] == 1) {
                 return false;
             }
         }
