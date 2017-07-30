@@ -1,51 +1,40 @@
 public class Solution {
+    private int index = 0;
     public int[] findOrder(int numCourses, int[][] prerequisites) {
         int[] rst = new int[numCourses];
-        for (int i = 0; i < numCourses; ++i) {
-            rst[i] = i;
-        }
-        if (numCourses == 0 || numCourses == 1 || prerequisites == null || prerequisites.length == 0) {
+        index = numCourses - 1;
+        if (numCourses == 0 || prerequisites == null) {
             return rst;
         }
-        List<List<Integer>> graph = new ArrayList<List<Integer>>();
+        List<List<Integer>> adjList = new ArrayList<List<Integer>>();
         for (int i = 0; i < numCourses; ++i) {
-            graph.add(new ArrayList<Integer>());
+            adjList.add(new ArrayList<Integer>());
         }
-        for (int[] dep : prerequisites) {
-            graph.get(dep[1]).add(dep[0]);
+        for (int[] edge : prerequisites) {
+            adjList.get(edge[1]).add(edge[0]);
         }
-        Map<Integer, Integer> visited = new HashMap<Integer, Integer>();
+        int[] visited = new int[numCourses];
         for (int i = 0; i < numCourses; ++i) {
-            visited.put(i, 0);
-        }
-        Stack<Integer> stack = new Stack<Integer>();
-        for (int i = 0; i < numCourses; ++i) {
-            if (!DFS(i, graph, visited, stack)) {
-                int[] emptyArray = {};
-                return emptyArray;
+            if (visited[i] == 0) {
+                if (!DFS(i, adjList, visited, rst)) {
+                    return new int[0];
+                }
             }
-        }
-        int index = 0;
-        while (!stack.isEmpty()) {
-            rst[index++] = stack.pop();
         }
         return rst;
     }
-    private boolean DFS(int node, List<List<Integer>> graph, Map<Integer, Integer> visited, Stack<Integer> stack) {
-        if (visited.get(node) != 0) {
-            return true;
-        }
-        visited.put(node, 1);
-        for (int i : graph.get(node)) {
-            if (visited.get(i) == 0) {
-                DFS(i, graph, visited, stack);
+    private boolean DFS(int node, List<List<Integer>> adjList, int[] visited, int[] rst) {
+        visited[node] = 1;
+        for (int i : adjList.get(node)) {
+            if (visited[i] == 0) {
+                DFS(i, adjList, visited, rst);
             }
-            if (visited.get(i) == 1) {
+            if (visited[i] == 1) {
                 return false;
             }
         }
-        visited.put(node, 2);
-        stack.push(node);
+        visited[node] = 2;
+        rst[index--] = node;
         return true;
     }
 }
