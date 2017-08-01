@@ -14,13 +14,10 @@ public class Solution {
         }
         int left = minDepth(root.left);
         int right = minDepth(root.right);
-        if (left == 0 && right == 0) {
-            return 1;
-        }
-        else if (left == 0 || right == 0) {
-            return Math.max(left, right) + 1;
+        if (left == 0 || right == 0) {
+            return 1 + left + right;
         } else {
-            return Math.min(left, right) + 1;
+            return 1 + Math.min(left, right);
         }
     }
 }
