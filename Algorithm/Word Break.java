@@ -1,20 +1,23 @@
 public class Solution {
-    public boolean wordBreak(String s, Set<String> dict) {
-        if (s == null || s.length() == 0 || dict == null || dict.size() == 0) {
-            return false;
+    public boolean wordBreak(String s, List<String> wordDict) {
+        Set<String> set = new HashSet<String>(wordDict);
+        if (s == null || s.length() == 0) {
+          return set.isEmpty();
         }
-        boolean[] dp = new boolean[s.length()];
-        for (int i = 0; i < s.length(); i++) {
-            if (dict.contains(s.substring(0, i + 1))) {
-                dp[i] = true;
-            } else {
-                for (int j = 0; j < i && !dp[i]; j++) {
-                    if (dp[j] && dict.contains(s.substring(j + 1, i + 1))) {
-                        dp[i] = true;
-                    }
+        int maxLength = 0;
+        for (String word : set) {
+            maxLength = Math.max(maxLength, word.length());
+        }
+        int size = s.length();
+        boolean[] dp = new boolean[size + 1];
+        dp[0] = true;
+        for (int i = 1; i <= size; i++) {
+            for (int j = i - 1; j >= 0 && !dp[i] && i - j <= maxLength; j--) {
+                if (dp[j] && set.contains(s.substring(j, i))) {
+                    dp[i] = true;
                 }
             }
         }
-        return dp[s.length() - 1];
+        return dp[size];
     }
 }
