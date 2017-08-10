@@ -3,18 +3,20 @@ public class Solution {
         if (s == null || s.length() == 0 || s.charAt(0) == '0') {
             return 0;
         }
-        int[] dp = new int[s.length()];
-        dp[0] = 1;
-        for (int i = 1; i < s.length(); i++) {
-            if (s.charAt(i) != '0') {
-                dp[i] = dp[i - 1];
-            }
-            String str = s.substring(i - 1, i + 1);
-            int temp = Integer.valueOf(str);
-            if (10 <= temp && temp <= 26) {
-                dp[i] = dp[i] + (i == 1 ? 1 : dp[i - 2]);
-            }
+        int size = s.length();
+        int[] dp = new int[]{1, ways(s.charAt(0))};
+        for (int i = 1; i < size; ++i) {
+            int temp = (dp[1] * ways(s.charAt(i)) + dp[0] * ways(s.substring(i - 1, i + 1)));
+            dp[0] = dp[1];
+            dp[1] = temp;
         }
-        return dp[s.length() - 1];
+        return dp[1];
+    }
+    private int ways(char c) {
+        return c == '0' ? 0 : 1;
+    }
+    private int ways(String sub) {
+        int val = Integer.parseInt(sub);
+        return 10 <= val && val <= 26 ? 1 : 0;
     }
 }
