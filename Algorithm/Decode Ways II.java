@@ -12,30 +12,30 @@ public class Solution {
         }
         return  (int)dp[1];
     }
-    private int ways(int ch) {
-        if(ch == '*') {
+    private int ways(char c) {
+        if(c == '*') {
             return 9;
-        } else if(ch == '0') {
+        } else if(c == '0') {
             return 0;
         }
         return 1;
     }
 
-    private int ways(char ch1, char ch2) {
-        String str = "" + ch1 + ch2;
-        if (ch1 != '*' && ch2 != '*') {
+    private int ways(char c1, char c2) {
+        String str = "" + c1 + c2;
+        if (c1 != '*' && c2 != '*') {
             int val = Integer.parseInt(str);
             if (10 <= val && val <= 26) {
                 return 1;
             } 
         } else if (str.equals("**")) {
                 return 15;
-        } else if (ch1 == '*') {
-            return ('0' <= ch2 && ch2 <= '6') ? 2 : 1;
+        } else if (c1 == '*') {
+            return ('0' <= c2 && c2 <= '6') ? 2 : 1;
         } else {
-            if (ch1 == '1') {
+            if (c1 == '1') {
                 return 9;
-            } else if (ch1 == '2') {
+            } else if (c1 == '2') {
                 return 6;
             }
         }
