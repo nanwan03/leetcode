@@ -1,21 +1,24 @@
 public class AllOne {
     private class Node {
         int value;
-        Set<String> keySet = new HashSet<String>();
+        Node prev;
         Node next;
-        Node pre;
-        public Node(int value) {
+        Set<String> keys = new HashSet<String>();
+        Node(int value, String key) {
             this.value = value;
+            this.prev = null;
+            this.next = null;
+            this.keys.add(key);
         }
     }
-    private Node head = new Node(-1);
-    private Node tail = new Node(-1);
-    private Map<Integer, Node> nodeMap = new HashMap<Integer, Node>();
+    private Node head = new Node(-1, "");
+    private Node tail = new Node(-1, "");
     private Map<String, Integer> valueMap = new HashMap<String, Integer>();
+    private Map<Integer, Node> nodeMap = new HashMap<Integer, Node>();
     /** Initialize your data structure here. */
     public AllOne() {
         head.next = tail;
-        tail.pre = head;
+        tail.prev = head;
     }
     
     /** Inserts a new key <Key> with value 1. Or increments an existing key by 1. */
@@ -23,12 +26,12 @@ public class AllOne {
         if (valueMap.containsKey(key)) {
             changeKey(key, 1);
         } else {
-        	valueMap.put(key, 1);
+            valueMap.put(key, 1);
             if (head.next.value != 1) {
-                addNode(new Node(1), head);
+                addNode(new Node(1, key), head);
+            } else {
+                head.next.keys.add(key);
             }
-            head.next.keySet.add(key);
-            nodeMap.put(1, head.next);
         }
     }
     
@@ -36,61 +39,52 @@ public class AllOne {
     public void dec(String key) {
         if (valueMap.containsKey(key)) {
             int count = valueMap.get(key);
-            if (count == 1) {
-                valueMap.remove(key);
-                Node temp = nodeMap.get(count);
-                temp.keySet.remove(key);
-                if (temp.keySet.size() == 0) {
-                    removeNode(temp);
-                    nodeMap.remove(temp.value);
-                }
-            } else {
+            if (count != 1) {
                 changeKey(key, -1);
+            } else {
+                valueMap.remove(key);
+                removeKey(key, nodeMap.get(count));
             }
         }
     }
     
     /** Returns one of the keys with maximal value. */
     public String getMaxKey() {
-        return tail.pre == head ? "" : (String) tail.pre.keySet.iterator().next();
+        return tail.prev == head ? "" : tail.prev.keys.iterator().next();
     }
     
     /** Returns one of the keys with Minimal value. */
     public String getMinKey() {
-        return head.next == tail ? "" : (String) head.next.keySet.iterator().next(); 
+        return head.next == tail ? "" : head.next.keys.iterator().next();
     }
-    
     private void changeKey(String key, int offset) {
         int count = valueMap.get(key);
-        valueMap.put(key, count + offset);
-        Node cur = nodeMap.get(count);
-        if (nodeMap.containsKey(count + offset)) {
-        	nodeMap.get(count + offset).keySet.add(key);
+        int newV = count + offset;
+        valueMap.put(key, newV);
+        Node node = nodeMap.get(count);
+        if (nodeMap.containsKey(newV)) {
+            nodeMap.get(newV).keys.add(key);
         } else {
-        	Node newNode = new Node(count + offset);
-            newNode.keySet.add(key);
-            nodeMap.put(count + offset, newNode);
-            addNode(newNode, offset == 1 ? cur : cur.pre);
+            addNode(new Node(newV, key), offset == 1 ? node : node.prev);
         }
-        cur.keySet.remove(key);
-        if (cur.keySet.size() == 0) {
-            removeNode(cur);
-            nodeMap.remove(cur.value);
+        removeKey(key, node);
+    }
+    private void addNode(Node node, Node prevNode) {
+        nodeMap.put(node.value, node);
+        node.next = prevNode.next;
+        node.prev = prevNode;
+        prevNode.next.prev = node;
+        prevNode.next = node;
+    }
+    private void removeKey(String key, Node node) {
+        node.keys.remove(key);
+        if (node.keys.isEmpty()) {
+            nodeMap.remove(node.value);
+            node.next.prev = node.prev;
+            node.prev.next = node.next;
+            node.prev = null;
+            node.next = null;
         }
-    }
-    
-    private void removeNode(Node node) {
-    	node.pre.next = node.next;
-    	node.next.pre = node.pre;
-    	node.next = null;
-    	node.pre = null;
-    }
-    
-    private void addNode(Node newNode, Node preNode) {
-    	newNode.pre = preNode;
-    	newNode.next = preNode.next;
-    	preNode.next.pre = newNode;
-    	preNode.next = newNode;
     }
 }
 
