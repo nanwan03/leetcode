@@ -10,12 +10,11 @@ public class Solution {
         }
         Arrays.sort(pairs, new Cmp());
         int rst = 0;
-        int n = pairs.length;
-        for (int i = 0; i < n; ++i) {
-            rst++;
-            int end = pairs[i][1];
-            while (i + 1 < n && pairs[i + 1][0] <= end) {
-                i++;
+        int end = Integer.MIN_VALUE;
+        for (int i = 0; i < pairs.length; ++i) {
+            if (end < pairs[i][0]) {
+                rst++;
+                end = pairs[i][1];
             }
         }
         return rst;
