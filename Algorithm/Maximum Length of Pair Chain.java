@@ -9,12 +9,12 @@ public class Solution {
             return 0;
         }
         Arrays.sort(pairs, new Cmp());
-        int rst = 0;
         int end = Integer.MIN_VALUE;
-        for (int i = 0; i < pairs.length; ++i) {
-            if (end < pairs[i][0]) {
+        int rst = 0;
+        for (int[] pair : pairs) {
+            if (end < pair[0]) {
+                end = pair[1];
                 rst++;
-                end = pairs[i][1];
             }
         }
         return rst;
