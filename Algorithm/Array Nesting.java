@@ -9,11 +9,11 @@ public class Solution {
                 continue;
             }
             int length = 1;
-            int val = nums[i];
-            while (val != i) {
+            int value = nums[i];
+            while (value != i && nums[value] >= 0) {
                 length++;
-                nums[val] *= -1;
-                val = Math.abs(nums[val]);
+                nums[value] *= -1;
+                value = Math.abs(nums[value]);
             }
             rst = Math.max(rst, length);
         }
