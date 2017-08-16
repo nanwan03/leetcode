@@ -10,10 +10,10 @@ public class Solution {
             }
             int length = 1;
             int val = nums[i];
-            while (Math.abs(val) != i) {
+            while (val != i) {
                 length++;
-                val = nums[Math.abs(val)];
-                nums[Math.abs(val)] *= -1;
+                nums[val] *= -1;
+                val = Math.abs(nums[val]);
             }
             rst = Math.max(rst, length);
         }
