@@ -1,16 +1,19 @@
 public class Solution {
     public String findLongestWord(String s, List<String> d) {
+        if (s == null || s.length() == 0) {
+            return s;
+        }
         String rst = "";
-        for (String dictWord : d) {
-            int i = 0;
+        for (String str : d) {
+            int index = 0;
             for (char c : s.toCharArray()) {
-                if (i < dictWord.length() && c == dictWord.charAt(i)) {
-                    i++;
+                if (index < str.length() && c == str.charAt(index)) {
+                    index++;
                 }
             }
-            if (i == dictWord.length() && dictWord.length() >= rst.length()) {
-                if (dictWord.length() > rst.length() || dictWord.compareTo(rst) < 0) {
-                    rst = dictWord;
+            if (index == str.length()) {
+                if (str.length() > rst.length() || (str.length() == rst.length() && str.compareTo(rst) < 0)) {
+                    rst = str;
                 }
             }
         }
