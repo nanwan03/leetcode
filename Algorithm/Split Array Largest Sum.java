@@ -1,20 +1,18 @@
-public class Solution {
+class Solution {
     public int splitArray(int[] nums, int m) {
         if (nums == null || nums.length == 0) {
             return 0;
         }
-        long max = 0; 
         long sum = 0;
-        for (int num : nums) {
-            max = Math.max(num, max);
-            sum += num;
+        long max = 0;
+        for (int i : nums) {
+            sum += i;
+            max = Math.max(max, i);
         }
-        if (m == 1) {
-            return (int)sum;
-        }
-        long left = max; 
-        long right = sum;
-        while (left + 1 <= right) {
+        return helper(nums, m, max, sum);
+    }
+    private int helper(int[] nums, int m, long left, long right) {
+        while (left + 1 < right) {
             long mid = left + (right - left) / 2;
             if (isValid(nums, m, mid)) {
                 right = mid;
@@ -22,21 +20,17 @@ public class Solution {
                 left = mid + 1;
             }
         }
-        if (isValid(nums, m, left)) {
-            return (int)left;
-        } else {
-            return (int)right;
-        }
+        return isValid(nums, m, left) ? (int)left :  (int)right;
     }
-    public boolean isValid(int[] nums, int m, long target) {
+    private boolean isValid(int[] nums, int m, long target) {
         int count = 1;
-        long total = 0;
-        for (int num : nums) {
-            if (total + num > target) {
-                total = 0;
+        long sum = 0;
+        for (int i : nums) {
+            if (sum + i > target) {
                 count++;
+                sum = 0;
             }
-            total += num;
+            sum += i;
         }
         return count <= m;
     }
