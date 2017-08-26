@@ -1,20 +1,24 @@
-public class Solution {
+class Solution {
     public int findCircleNum(int[][] M) {
-        int[] visited = new int[M.length];
+        if (M == null || M.length == 0) {
+            return 0;
+        }
         int count = 0;
-        for (int i = 0; i < M.length; i++) {
-            if (visited[i] == 0) {
-                dfs(M, visited, i);
-                count++;
+        for (int i = 0; i < M.length; ++i) {
+            for (int j = i; j < M.length; ++j) {
+                if (M[i][j] == 1) {
+                    count++;
+                    mark(M, j);
+                }
             }
         }
         return count;
     }
-    public void dfs(int[][] M, int[] visited, int i) {
-        for (int j = 0; j < M.length; j++) {
-            if (M[i][j] == 1 && visited[j] == 0) {
-                visited[j] = 1;
-                dfs(M, visited, j);
+    private void mark(int[][] M, int next) {
+        for (int i = 0; i < M.length; ++i) {
+            if (M[next][i] == 1) {
+                M[next][i] = 0;
+                mark(M, i);
             }
         }
     }
