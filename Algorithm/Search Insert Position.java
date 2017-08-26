@@ -1,26 +1,26 @@
-public class Solution {
-    public int searchInsert(int[] A, int target) {
-        if (A == null || A.length == 0) {
+class Solution {
+    public int searchInsert(int[] nums, int target) {
+        if (nums == null || nums.length == 0) {
             return 0;
         }
         int left = 0;
-        int right = A.length - 1;
+        int right = nums.length - 1;
         while (left + 1 < right) {
             int mid = left + (right - left) / 2;
-            if (A[mid] == target) {
-                return mid;
-            } else if (A[mid] < target) {
-                left = mid;
+            if (nums[mid] == target) {
+                right = mid;
+            } else if (nums[mid] < target) {
+                left = mid + 1;
             } else {
                 right = mid;
             }
         }
-        if (A[right] < target) {
-            return right + 1;
-        } else if (A[left] < target || A[right] == target) {
+        if (nums[left] >= target) {
+            return left;
+        } else if (nums[right] >= target) {
             return right;
         } else {
-            return left;
+            return right + 1;
         }
     }
 }
