@@ -1,26 +1,45 @@
 class Solution {
     public boolean canPartitionKSubsets(int[] nums, int k) {
-        int sum = Arrays.stream(nums).sum();
-        if (sum % k > 0) return false;
+        int sum = 0;
+        for (int i : nums) {
+            sum += i;
+        }
+        if (sum % k != 0) {
+            return false;
+        }
         int target = sum / k;
-
         Arrays.sort(nums);
-        int row = nums.length - 1;
-        if (nums[row] > target) return false;
-        while (row >= 0 && nums[row] == target) row--;
-
-        return search(new int[k], row, nums, target);
+        int index = nums.length - 1;
+        if (nums[index] > target) {
+            return false;
+        }
+        while (index >= 0 && nums[index] == target) {
+            index--;
+            k--;
+        }
+        return helper(new int[k], index, nums, target);
     }
-    public boolean search(int[] groups, int row, int[] nums, int target) {
-        if (row < 0) return true;
-        int v = nums[row--];
-        for (int i = 0; i < groups.length; i++) {
-            if (groups[i] + v <= target) {
-                groups[i] += v;
-                if (search(groups, row, nums, target)) return true;
-                groups[i] -= v;
+    private boolean helper(int[] group, int index, int[] nums, int target) {
+        if (index < 0) {
+            for (int i = 0; i < group.length; ++i) {
+                if (group[i] != target) {
+                    return false;
+                }
             }
-            if (groups[i] == 0) break;
+            return true;
+        }
+        int num = nums[index--];
+        for (int i = 0; i < group.length; ++i) {
+            if (group[i] + num  <= target) {
+                group[i] += num;
+                if (helper(group, index, nums, target)) {
+                    return true;
+                }
+                group[i] -= num;
+            }
+            if (group[i] == 0) {
+                break;
+            }
         }
         return false;
     }
