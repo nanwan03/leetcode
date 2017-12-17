@@ -1,5 +1,8 @@
 class Solution {
     public boolean canPartitionKSubsets(int[] nums, int k) {
+        if (nums == null || nums.length == 0) {
+            return false;
+        }
         int sum = 0;
         for (int i : nums) {
             sum += i;
@@ -9,36 +12,29 @@ class Solution {
         }
         int target = sum / k;
         Arrays.sort(nums);
-        int index = nums.length - 1;
-        if (nums[index] > target) {
-            return false;
-        }
-        while (index >= 0 && nums[index] == target) {
-            index--;
-            k--;
-        }
-        return helper(new int[k], index, nums, target);
+        return helper(nums, new int[k], new boolean[nums.length + 1], 0, nums.length - 1, target);
     }
-    private boolean helper(int[] group, int index, int[] nums, int target) {
-        if (index < 0) {
-            for (int i = 0; i < group.length; ++i) {
-                if (group[i] != target) {
+    private boolean helper(int[] nums, int[] subset, boolean[] isused, int curIndex, int limitIndex, int target) {
+        if (curIndex == subset.length) {
+            for (int i = 0; i < subset.length; ++i) {
+                if (subset[i] != target) {
                     return false;
                 }
             }
             return true;
         }
-        int num = nums[index--];
-        for (int i = 0; i < group.length; ++i) {
-            if (group[i] + num  <= target) {
-                group[i] += num;
-                if (helper(group, index, nums, target)) {
+        if (subset[curIndex] == target) {
+            return helper(nums, subset, isused, curIndex + 1, nums.length - 1, target);
+        }
+        for (int i = limitIndex; i >= 0; --i) {
+            if (!isused[i]) {
+                isused[i] = true;
+                subset[curIndex] += nums[i];
+                if (helper(nums, subset, isused, curIndex, i - 1, target)) {
                     return true;
                 }
-                group[i] -= num;
-            }
-            if (group[i] == 0) {
-                break;
+                isused[i] = false;
+                subset[curIndex] -= nums[i];
             }
         }
         return false;
