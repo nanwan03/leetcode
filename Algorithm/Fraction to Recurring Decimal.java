@@ -1,53 +1,33 @@
-public class Solution {
+class Solution {
     public String fractionToDecimal(int numerator, int denominator) {
-        String res = "";
-        long a = Math.abs((long) numerator);
-        long b = Math.abs((long) denominator);
-        if ((denominator < 0 && numerator > 0) || (denominator > 0 && numerator < 0)) {
-            res += "-";
+        if (numerator == 0) {
+            return "0";
         }
-        long intPart= a / b;
-        res += intPart;
-        if (a % b == 0) {
-            return res;
+        StringBuilder rst = new StringBuilder();
+        rst.append(((numerator > 0) ^ (denominator > 0)) ? "-" : "");
+        long num = Math.abs((long)numerator);
+        long den = Math.abs((long)denominator);
+        rst.append(num / den);
+        num %= den;
+        if (num == 0) {
+            return rst.toString();
         }
-        res += ".";
-        long remainder = a % b;
-        HashMap<Long, Integer> map = new HashMap<Long, Integer>();
-        int i = 1;
-        map.put(remainder, 1);
-        Queue<Long> queue = new LinkedList<Long>();
-        int begin = -1;
-        while (remainder != 0) {
-            i++;
-            long tmp = remainder * 10 / b;
-            remainder = remainder * 10 % b;
-            if (map.containsKey(remainder)) {
-                begin = map.get(remainder);
-                queue.offer(tmp);
+        rst.append(".");
+        Map<Long, Integer> map = new HashMap<Long, Integer>();
+        map.put(num, rst.length());
+        while (num != 0) {
+            num *= 10;
+            rst.append(num / den);
+            num %= den;
+            if (map.containsKey(num)) {
+                int index = map.get(num);
+                rst.insert(index, "(");
+                rst.append(")");
                 break;
             } else {
-                map.put(remainder, i);
-                queue.offer(tmp);
+                map.put(num, rst.length());
             }
         }
-        if (remainder == 0) {
-            while (!queue.isEmpty()) {
-                res += queue.poll();
-            }
-        } else {
-            int j = 1;
-            while (!queue.isEmpty()) {
-                long cur = queue.poll();
-                if (j != begin) {
-                    res += cur;
-                } else {
-                    res = res + "(" + cur;
-                }
-                j++;
-            }
-            res += ")";
-        }
-        return res;
+        return rst.toString();
     }
 }
