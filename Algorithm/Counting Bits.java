@@ -1,13 +1,16 @@
-public class Solution {
+class Solution {
     public int[] countBits(int num) {
-        int[] result = new int[num + 1];
-        result[0] = 0;
-        if(num == 0){ return result;}
-        int leftMostOne = 1; // will increase as 2, 4, 8, 16, 32 ....
-        for(int i = 1; i <= num; i++){
-            if(i == 2 * leftMostOne){ leftMostOne = i;}
-            result[i] = 1 + result[i - leftMostOne];
+        int[] dp = new int[num + 1];
+        if (num == 0) {
+            return dp;
         }
-        return result;
+        int leftOne = 1;
+        for (int i = 1; i <= num; ++i) {
+            if ((i >>> 1) == leftOne) {
+                leftOne = leftOne << 1;
+            }
+            dp[i] = 1 + dp[i - leftOne];
+        }
+        return dp;
     }
 }
