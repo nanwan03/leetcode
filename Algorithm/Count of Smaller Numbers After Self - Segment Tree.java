@@ -12,7 +12,7 @@ public class Solution {
     }
     public static List<Integer> countSmaller(int[] nums) {
         // write your code here
-        List<Integer> result = new ArrayList<Integer>();
+        List<Integer> rst = new ArrayList<Integer>();
 
         int min = Integer.MAX_VALUE, max = Integer.MIN_VALUE;
         for (int i : nums) {
@@ -28,14 +28,12 @@ public class Solution {
             max = Math.max(max, i);
         }
         segmentTreeNode root = build(0, max);
-        for (int i = 0; i < nums.length; i++) {
-            updateAdd(root, nums[i]);
+        for (int i = nums.length - 1; i >= 0; --i) {
+            rst.add(query(root, 0, nums[i] - 1));
+            update(root, nums[i]);
         }
-        for (int i = 0; i < nums.length; i++) {
-            updateDel(root, nums[i]);
-            result.add(query(root, 0, nums[i] - 1));
-        }
-        return result;
+        Collections.reverse(rst);
+        return rst;
     }
     public static segmentTreeNode build(int start, int end) {
         if (start > end) return null;
@@ -61,33 +59,16 @@ public class Solution {
         }
     }
 
-    public static void updateAdd(segmentTreeNode root, int val) {
-        if (root == null || root.start > val || root.end < val) return;
-        if (root.start == val && root.end == val) {
-            root.count ++;
+    public static void update(segmentTreeNode root, int value) {
+        if (root == null) {
             return;
         }
-        int mid = (root.start + root.end) / 2;
-        if (val <= mid) {
-            updateAdd(root.left, val);
+        root.count++;
+        int mid = (root.start + root.end) >>> 1;
+        if (value <= mid) {
+            update(root.left, value);
         } else {
-            updateAdd(root.right, val);
+            update(root.right, value);
         }
-        root.count = root.left.count + root.right.count;
-    }
-
-    public static void updateDel(segmentTreeNode root, int val) {
-        if (root == null || root.start > val || root.end < val) return;
-        if (root.start == val && root.end == val) {
-            root.count --;
-            return;
-        }
-        int mid = (root.start + root.end) / 2;
-        if (val <= mid) {
-            updateDel(root.left, val);
-        } else {
-            updateDel(root.right, val);
-        }
-        root.count = root.left.count + root.right.count;
     }
 }
