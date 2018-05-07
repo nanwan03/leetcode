@@ -1,38 +1,30 @@
-public class Solution {
+class Solution {
     public int lengthOfLIS(int[] nums) {
+        if (nums == null || nums.length == 0) {
+            return 0;
+        }
         int[] dp = new int[nums.length];
         int rst = 0;
-        for(int i : nums) {
-            int index = search(dp, 0, rst, i);
-            dp[index] = i;
-            if(index == rst) {
+        for (int i = 0; i < nums.length; ++i) {
+            int index = binarySearch(dp, 0, rst - 1, nums[i]);
+            dp[index] = nums[i];
+            if (index == rst) {
                 rst++;
             }
         }
-
         return rst;
     }
-    private int search(int[] A, int left, int right, int target) {
-        if (right == 0) {
-            return 0;
-        }
-        right = right - 1;
-        while (left + 1 < right) {
-            int mid = left + (right - left) / 2;
-            if (A[mid] == target) {
+    private int binarySearch(int[] dp, int left, int right, int target) {
+        while (left <= right) {
+            int mid = (left + right) >>> 1;
+            if (dp[mid] == target) {
                 return mid;
-            } else if (A[mid] < target) {
-                left = mid;
+            } else if (dp[mid] < target) {
+                left = mid + 1;
             } else {
-                right = mid;
+                right = mid - 1;
             }
         }
-        if (A[right] < target) {
-            return right + 1;
-        } else if (A[right] == target || A[left] < target) {
-            return right;
-        } else {
-            return left;
-        }
+        return left;
     }
 }
