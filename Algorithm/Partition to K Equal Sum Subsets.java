@@ -3,38 +3,26 @@ class Solution {
         if (nums == null || nums.length == 0) {
             return false;
         }
-        int sum = 0;
-        for (int i : nums) {
-            sum += i;
-        }
+        int sum = Arrays.stream(nums).sum();
         if (sum % k != 0) {
             return false;
         }
-        int target = sum / k;
-        Arrays.sort(nums);
-        return helper(nums, new int[k], new boolean[nums.length + 1], 0, nums.length - 1, target);
+        return helper(nums, new boolean[nums.length], 0, k, 0, 0, sum / k);
     }
-    private boolean helper(int[] nums, int[] subset, boolean[] isused, int curIndex, int limitIndex, int target) {
-        if (curIndex == subset.length) {
-            for (int i = 0; i < subset.length; ++i) {
-                if (subset[i] != target) {
-                    return false;
-                }
-            }
+    private boolean helper(int[] nums, boolean[] isused, int startIndex, int k, int curSum, int curNum, int target) {
+        if (k == 1) {
             return true;
         }
-        if (subset[curIndex] == target) {
-            return helper(nums, subset, isused, curIndex + 1, nums.length - 1, target);
+        if (curSum == target && curNum > 0) {
+            return helper(nums, isused, 0, k-1, 0, 0, target);
         }
-        for (int i = limitIndex; i >= 0; --i) {
+        for (int i = startIndex; i < nums.length; ++i){
             if (!isused[i]) {
                 isused[i] = true;
-                subset[curIndex] += nums[i];
-                if (helper(nums, subset, isused, curIndex, i - 1, target)) {
+                if (helper(nums, isused, i + 1, k, curSum + nums[i], curNum++, target)) {
                     return true;
                 }
                 isused[i] = false;
-                subset[curIndex] -= nums[i];
             }
         }
         return false;
