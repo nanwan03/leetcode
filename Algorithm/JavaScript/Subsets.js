@@ -14,3 +14,5 @@ var subsets = function(nums) {
     }
     return rst;
 };
+
+console.log(subsets([1,2,3]));

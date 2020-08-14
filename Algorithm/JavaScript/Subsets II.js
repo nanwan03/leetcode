@@ -19,3 +19,5 @@ var subsetsWithDup = function(nums) {
     
     return rst;
 };
+
+console.log(subsetsWithDup([2, 1,1,2,3]));
