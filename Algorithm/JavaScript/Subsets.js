@@ -9,7 +9,7 @@ var subsets = function(nums) {
     function dfs(current, index) {
         rst.push(current);
         for (let i = index; i < nums.length; ++i) {
-            dfs(current.concat(nums[i]), i + 1);
+            dfs([...current, nums[i]], i + 1);
         }
     }
     return rst;

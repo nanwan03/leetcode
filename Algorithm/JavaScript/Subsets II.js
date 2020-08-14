@@ -13,7 +13,7 @@ var subsetsWithDup = function(nums) {
             if (i > index && nums[i] === nums[i - 1]) {
                 continue;
             }
-            dfs(current.concat(nums[i]), i + 1);
+            dfs([...current, nums[i]], i + 1);
         }
     }
     
