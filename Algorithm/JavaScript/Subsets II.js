@@ -5,9 +5,8 @@
 var subsetsWithDup = function(nums) {
     let rst = [];
     nums = nums.sort((a, b)=>(a - b));
-    dfs([], 0);
-    
-    function dfs(current, index) {
+
+    let dfs = (current, index) => {
         rst.push(current);
         for (let i = index; i < nums.length; ++i) {
             if (i > index && nums[i] === nums[i - 1]) {
@@ -16,7 +15,9 @@ var subsetsWithDup = function(nums) {
             dfs([...current, nums[i]], i + 1);
         }
     }
-    
+
+    dfs([], 0);
+
     return rst;
 };
 

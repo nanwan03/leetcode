@@ -4,14 +4,16 @@
  */
 var subsets = function(nums) {
     let rst = [];
-    dfs([], 0);
-    
-    function dfs(current, index) {
+
+    let dfs = (current, index) => {
         rst.push(current);
         for (let i = index; i < nums.length; ++i) {
             dfs([...current, nums[i]], i + 1);
         }
     }
+
+    dfs([], 0);
+
     return rst;
 };
 
