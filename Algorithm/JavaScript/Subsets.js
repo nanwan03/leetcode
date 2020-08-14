@@ -1,0 +1,16 @@
+/**
+ * @param {number[]} nums
+ * @return {number[][]}
+ */
+var subsets = function(nums) {
+    let rst = [];
+    dfs([], 0);
+    
+    function dfs(current, index) {
+        rst.push(current);
+        for (let i = index; i < nums.length; ++i) {
+            dfs(current.concat(nums[i]), i + 1);
+        }
+    }
+    return rst;
+};
