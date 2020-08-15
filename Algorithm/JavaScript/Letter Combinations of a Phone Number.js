@@ -34,4 +34,4 @@ var letterCombinations = function(digits) {
     return rst;
 };
 
-console.log(letterCombinations("23"));
+console.log(letterCombinations('23'));
