@@ -3,14 +3,17 @@
  * @return {number[][]}
  */
 var permuteUnique = function(nums) {
-    let rst = [];
+    if (nums.length === 0) {
+        return [];
+    }
+    const rst = [];
 
     const helper = (current, index) => {
         if (index === current.length) {
             rst.push([...current]);
             return;
         }
-        let set = new Set();
+        const set = new Set();
         for (let i = index; i < current.length; ++i) {
             if (set.has(current[i])) {
                 continue;

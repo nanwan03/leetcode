@@ -17,7 +17,7 @@ var letterCombinations = function(digits) {
         9: 'wxyz',
     };
 
-    let rst = [];
+    const rst = [];
 
     const helper = (current, index) => {
         if (index === digits.length) {
@@ -25,7 +25,7 @@ var letterCombinations = function(digits) {
             return;
         }
 
-        for (let c of map[digits[index]]) {
+        for (const c of map[digits[index]]) {
             helper(current + c, index + 1);
         }
     }

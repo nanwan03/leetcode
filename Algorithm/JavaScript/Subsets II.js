@@ -3,7 +3,10 @@
  * @return {number[][]}
  */
 var subsetsWithDup = function(nums) {
-    let rst = [];
+    if (nums.length === 0) {
+        return [];
+    }
+    const rst = [];
     nums = nums.sort((a, b)=>(a - b));
 
     const helper = (current, index) => {
@@ -17,7 +20,6 @@ var subsetsWithDup = function(nums) {
     }
 
     helper([], 0);
-
     return rst;
 };
 

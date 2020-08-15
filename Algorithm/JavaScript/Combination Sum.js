@@ -4,7 +4,10 @@
  * @return {number[][]}
  */
 var combinationSum = function(candidates, target) {
-    let rst = [];
+    if (candidates.length === 0) {
+        return [];
+    }
+    const rst = [];
 
     const helper = (current, sum, index) => {
         if (sum === target) {

@@ -6,8 +6,7 @@ var partition = function(s) {
     if (s.length === 0) {
         return [];
     }
-
-    let rst = [];
+    const rst = [];
 
     const isPalindrome = (left, right) => {
         while (left < right) {

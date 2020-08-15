@@ -3,7 +3,10 @@
  * @return {number[][]}
  */
 var subsets = function(nums) {
-    let rst = [];
+    if (nums.length === 0) {
+        return [];
+    }
+    const rst = [];
 
     const helper = (current, index) => {
         rst.push(current);
@@ -13,7 +16,6 @@ var subsets = function(nums) {
     }
 
     helper([], 0);
-
     return rst;
 };
 

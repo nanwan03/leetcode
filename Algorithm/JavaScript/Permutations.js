@@ -3,7 +3,10 @@
  * @return {number[][]}
  */
 var permute = function(nums) {
-    let rst = [];
+    if (nums.length === 0) {
+        return [];
+    }
+    const rst = [];
 
     const helper = (current, index) => {
         if (index === nums.length) {

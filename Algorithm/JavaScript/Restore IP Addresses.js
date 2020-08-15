@@ -6,8 +6,7 @@ var restoreIpAddresses = function(s) {
     if (s.length < 4 || s.length > 12) {
         return [];
     }
-
-    let rst = [];
+    const rst = [];
 
     const isValid = (str) => {
         if (str.length > 1 && str[0] === '0') {
