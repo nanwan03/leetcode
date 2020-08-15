@@ -5,14 +5,14 @@
 var subsets = function(nums) {
     let rst = [];
 
-    let dfs = (current, index) => {
+    const helper = (current, index) => {
         rst.push(current);
         for (let i = index; i < nums.length; ++i) {
-            dfs([...current, nums[i]], i + 1);
+            helper([...current, nums[i]], i + 1);
         }
     }
 
-    dfs([], 0);
+    helper([], 0);
 
     return rst;
 };

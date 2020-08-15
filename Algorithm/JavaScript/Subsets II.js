@@ -6,17 +6,17 @@ var subsetsWithDup = function(nums) {
     let rst = [];
     nums = nums.sort((a, b)=>(a - b));
 
-    let dfs = (current, index) => {
+    const helper = (current, index) => {
         rst.push(current);
         for (let i = index; i < nums.length; ++i) {
             if (i > index && nums[i] === nums[i - 1]) {
                 continue;
             }
-            dfs([...current, nums[i]], i + 1);
+            helper([...current, nums[i]], i + 1);
         }
     }
 
-    dfs([], 0);
+    helper([], 0);
 
     return rst;
 };

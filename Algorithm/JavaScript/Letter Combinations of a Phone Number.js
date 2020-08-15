@@ -19,18 +19,18 @@ var letterCombinations = function(digits) {
 
     let rst = [];
 
-    let dfs = (current, index) => {
+    const helper = (current, index) => {
         if (index === digits.length) {
             rst.push(current);
             return;
         }
 
         for (let c of map[digits[index]]) {
-            dfs(current + c, index + 1);
+            helper(current + c, index + 1);
         }
     }
 
-    dfs('', 0);
+    helper('', 0);
     return rst;
 };
 

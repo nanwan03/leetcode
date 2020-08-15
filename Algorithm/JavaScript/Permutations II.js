@@ -5,7 +5,7 @@
 var permuteUnique = function(nums) {
     let rst = [];
 
-    let dfs = (current, index) => {
+    const helper = (current, index) => {
         if (index === current.length) {
             rst.push(current.slice());
             return;
@@ -17,12 +17,12 @@ var permuteUnique = function(nums) {
             }
             set.add(current[i]);
             [current[index], current[i]] = [current[i], current[index]];
-            dfs(current, index + 1);
+            helper(current, index + 1);
             [current[index], current[i]] = [current[i], current[index]];
         }
     }
 
-    dfs(nums, 0);
+    helper(nums, 0);
     return rst;
 };
 
