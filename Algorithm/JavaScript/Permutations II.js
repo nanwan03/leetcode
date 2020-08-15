@@ -7,7 +7,7 @@ var permuteUnique = function(nums) {
 
     const helper = (current, index) => {
         if (index === current.length) {
-            rst.push(current.slice());
+            rst.push([...current]);
             return;
         }
         let set = new Set();

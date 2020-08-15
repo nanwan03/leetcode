@@ -8,7 +8,7 @@ var combinationSum = function(candidates, target) {
 
     const helper = (current, sum, index) => {
         if (sum === target) {
-            rst.push(current.slice());
+            rst.push([...current]);
             return;
         }
         for (let i = index; i < candidates.length; ++i) {

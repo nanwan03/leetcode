@@ -7,7 +7,7 @@ var permute = function(nums) {
 
     const helper = (current, index) => {
         if (index === nums.length) {
-            rst.push(current.slice());
+            rst.push([...current]);
             return;
         }
         for (let i = index; i < current.length; ++i) {
