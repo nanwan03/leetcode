@@ -4,7 +4,7 @@
  * @return {number}
  */
 var search = function(nums, target) {
-    if (nums.length === 0) {
+    if (!nums.length) {
         return -1;
     }
     let left = 0;

@@ -3,7 +3,7 @@
  * @return {number[][]}
  */
 var subsetsWithDup = function(nums) {
-    if (nums.length === 0) {
+    if (!nums.length) {
         return [];
     }
     const rst = [];

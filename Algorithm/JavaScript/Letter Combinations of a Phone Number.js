@@ -3,7 +3,7 @@
  * @return {string[]}
  */
 var letterCombinations = function(digits) {
-    if (digits.length === 0) {
+    if (!digits.length) {
         return [];
     }
     const map = {

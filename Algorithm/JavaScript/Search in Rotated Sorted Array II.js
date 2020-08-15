@@ -4,7 +4,7 @@
  * @return {boolean}
  */
 var search = function(nums, target) {
-    if (nums.length === 0) {
+    if (!nums.length) {
         return false;
     }
     let left = 0;

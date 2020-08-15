@@ -4,7 +4,7 @@
  * @return {number[][]}
  */
 var combinationSum = function(candidates, target) {
-    if (candidates.length === 0) {
+    if (!candidates.length) {
         return [];
     }
     const rst = [];

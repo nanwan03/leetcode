@@ -3,7 +3,7 @@
  * @return {string[][]}
  */
 var partition = function(s) {
-    if (s.length === 0) {
+    if (!s.length) {
         return [];
     }
     const rst = [];
