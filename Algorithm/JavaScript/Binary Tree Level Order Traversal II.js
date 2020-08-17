@@ -21,7 +21,7 @@ var levelOrderBottom = function(root) {
         const size = queue.length;
         const cur = [];
         for (let i = 0; i < size; ++i) {
-            node = queue.shift();
+            const node = queue.shift();
             cur.push(node.val);
             if (node.left) {
                 queue.push(node.left);
