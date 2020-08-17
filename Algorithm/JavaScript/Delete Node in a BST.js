@@ -12,7 +12,7 @@
  * @return {TreeNode}
  */
 var deleteNode = function(root, key) {
-    if (!root) {
+    if (root == null) {  //equals to (root === undefined || root === null)
         return root;
     }
     if (key < root.val) {
