@@ -19,7 +19,7 @@ var postorderTraversal = function(root) {
 
     while (stack.length) {
         const cur = stack.pop();
-        rst.push(cur.val);
+        rst.unshift(cur.val);
 
         if (cur.left) {
             stack.push(cur.left);
@@ -28,5 +28,5 @@ var postorderTraversal = function(root) {
             stack.push(cur.right);
         }
     }
-    return rst.reverse();
+    return rst;
 };
